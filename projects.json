@@ -1,0 +1,21 @@
+{
+    "ProjectsArray": [
+      {
+        "id": 1,
+        "Title": "Project One",
+        "About": "something fun",
+        "Image": "bro.png",
+        "Link1": "",
+        "Link2": ""
+      },
+      {
+        "id": 2,
+        "Title": "Project Two",
+        "About": "something fun",
+        "Image": "bro.png",
+        "Link1": "",
+        "Link2": ""
+      }
+    ]
+  }
+  
