@@ -1,0 +1,36 @@
+name: Deploy to GCS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload to GCS
+        env:
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+          GCP_KEY_FILE: ${{ secrets.GCP_KEY_FILE }}
+        run: |
+          echo "${{ secrets.GCP_KEY_FILE }}" > gcloud-key.json
+          gcloud auth activate-service-account --key-file=gcloud-key.json
+          gcloud config set project $GCP_PROJECT
+          gsutil -m cp -r dist/* gs://$GCS_BUCKET
